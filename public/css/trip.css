@@ -1,0 +1,58 @@
+.tripButton{
+    border:none;
+    padding:28px 90px;
+    display:inline-block;
+    text-transform:uppercase;
+    margin:15px 30px;
+    color:white;
+    letter-spacing:2px;
+    font-size:1.3em;
+    outline:none;
+    cursor:pointer;
+    font-weight: bold;
+}
+
+.tripButton-home{
+  position: relative;
+}
+
+#left{
+  background: #3A539B;
+  left:-100px;
+}
+#right{
+  background: #DB0A5B;
+  right:100px;
+}
+
+.tripContainer{
+  position: relative;
+  left: -30px;
+  right: 30px;
+  width: 940px;
+}
+
+.tripHeader{
+    padding: 30px;
+    padding-right: 60px;
+    padding-left: 60px;
+    margin-bottom: 0px;
+    background-color: #22313F
+}
+
+.tripHeader h1{
+  margin-bottom: 0;
+  font-size: 60px;
+  line-height: 1;
+  letter-spacing: -1px;
+  color: white;
+  font-weight: bold;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.tripMain{
+    padding: 300px;
+    margin-bottom: 0px;
+    background-color: #000000;
+    display: block;
+}
