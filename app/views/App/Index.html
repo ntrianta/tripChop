@@ -1,23 +1,19 @@
 {{set . "title" "Home"}}
 {{template "header.html" .}}
 
-<header class="hero-unit" style="background-color:#A9F16C">
+<header class="tripHeader">
   <div class="container">
     <div class="row">
-      <div class="hero-text">
-        <h1>It works!</h1>
+        <h1>Trip Chop</h1>
         <p></p>
-      </div>
     </div>
   </div>
 </header>
-
-<div class="container">
-  <div class="row">
-    <div class="span6">
-      {{template "flash.html" .}}
-    </div>
+<section id="main" class="tripMain">
+  <div class="tripContainer">
+      <button type="button" id="left"  class="tripButton tripButton-home">Tool</button>
+      <button type="button" id="right" class="tripButton tripButton-home">Presentation</button>
   </div>
-</div>
+</article>
 
 {{template "footer.html" .}}
