@@ -1,19 +1,16 @@
 {{set . "title" "Home"}}
 {{template "header.html" .}}
+<div class="tripContainer">
+  <header class="tripHeader">
+    <h1>Trip Chop</h1>
+  </header>
 
-<header class="tripHeader">
-  <div class="container">
-    <div class="row">
-        <h1>Trip Chop</h1>
-        <p></p>
+
+  <section id="main" class="tripMain">
+    <div class="tripContainer">
+      <button type="button" id="left"  class="tripButton" onclick="window.location.href='flow/'">Tool</button>
+      <button type="button" id="right" class="tripButton">Presentation</button>
     </div>
-  </div>
-</header>
-<section id="main" class="tripMain">
-  <div class="tripContainer">
-      <button type="button" id="left"  class="tripButton tripButton-home">Tool</button>
-      <button type="button" id="right" class="tripButton tripButton-home">Presentation</button>
-  </div>
-</article>
+  </section>
 
 {{template "footer.html" .}}
