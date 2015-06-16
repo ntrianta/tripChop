@@ -5,7 +5,9 @@
 module:testrunner
 
 GET     /                                       App.Index
-GET     /flow                                   Flow.Foo
+GET     /flow                                   Flow.AggregateFlow
+GET     /flow/json                              Flow.FlowJson
+
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
