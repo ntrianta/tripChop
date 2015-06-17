@@ -20,7 +20,7 @@ type Flow struct {
 	*revel.Controller
 }
 
-func (c Flow) AggregateFlow() revel.Result {
+func (c Flow) ScatterOne() revel.Result {
 	return c.Render()
 }
 

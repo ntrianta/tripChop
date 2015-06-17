@@ -5,7 +5,7 @@
 module:testrunner
 
 GET     /                                       App.Index
-GET     /flow                                   Flow.AggregateFlow
+GET     /flow/ScatterOne                        Flow.ScatterOne
 GET     /flow/json                              Flow.FlowJson
 
 

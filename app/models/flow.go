@@ -18,7 +18,7 @@ func Aggregate() []Flow {
 	results := []Flow{}
 
 	fromDate := time.Date(2014, time.August, 12, 9, 0, 0, 0, time.UTC)
-	toDate := time.Date(2014, time.August, 12, 10, 0, 0, 0, time.UTC)
+	toDate := time.Date(2014, time.August, 12, 9, 15, 0, 0, time.UTC)
 
 	session, _ := mgo.Dial("localhost:27017")
 	collection := session.DB("pcap").C("flow")
