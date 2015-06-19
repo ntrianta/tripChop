@@ -1,0 +1,68 @@
+{{set . "title" "Home"}}
+{{template "header.html" .}}
+
+<script>
+
+var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var barPadding = 1;
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.json("http://localhost:9000/port/json", function(error, data) {
+
+  x.domain(data.map(function(d) {
+    return d.Port; }));
+  y.domain([0, d3.max(data, function(d) { return d.Bytes; })]);
+
+  svg.selectAll("rect")
+    .data(data)
+    .enter()
+    .append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.Port); })
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d.Bytes); })
+      .attr("height", function(d) { return height - y(d.Bytes); })
+      .attr("fill", "#22313F");
+
+    svg.selectAll("text")
+         .data(data)
+         .enter()
+         .append("text")
+         .text(function(d) {
+             return d.Port.split('(')[0];
+         })
+         .attr("text-anchor", "middle")
+         .attr("x", function(d, i) {
+             return x(d.Port)+40;
+         })
+         .attr("y", function(d) {
+             return y(d.Bytes)+20;
+         })
+         .attr("font-family", "sans-serif")
+         .attr("font-size", "13px")
+         .attr("font-weight", "bold")
+         .attr("fill", "white");
+});
+
+function type(d) {
+  d.Bytes = +d.Bytes;
+  return d;
+}
+
+</script>
+</body>
+</html>

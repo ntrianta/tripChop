@@ -7,15 +7,13 @@ import (
 	"time"
 )
 
-type Flow struct {
-	Flow    bson.M  `bson:"_id"`
-	Packets int     `bson:"p"`
-	Bytes   float64 `bson:"b"`
-	Average float64 `bson:"a"`
+type Port struct {
+	Port  bson.M  `bson:"_id"`
+	Bytes float64 `bson:"b"`
 }
 
-func HourlyFlow() []Flow {
-	results := []Flow{}
+func HourlyPort() []Port {
+	results := []Port{}
 
 	fromDate := time.Date(2014, time.August, 12, 9, 0, 0, 0, time.UTC)
 	toDate := time.Date(2014, time.August, 12, 10, 0, 0, 0, time.UTC)
@@ -23,13 +21,12 @@ func HourlyFlow() []Flow {
 	session, _ := mgo.Dial("localhost:27017")
 	collection := session.DB("pcap").C("flow")
 	collection.Pipe([]bson.M{
-		{"$match": bson.M{"ts": bson.M{"$gte": fromDate, "$lte": toDate}, "p": "TCP", "sp": bson.M{"$ne": "ignore"}}},
+		{"$match": bson.M{"ts": bson.M{"$gte": fromDate, "$lte": toDate}, "p": "TCP", "sp": bson.M{"$ne": "ignore"}}}, //minor workaround to a bug in parsing
 		{"$group": bson.M{
-			"_id": bson.M{"si": "$si", "di": "$di", "sp": "$sp", "dp": "$dp", "p": "$p"},
-			"p":   bson.M{"$sum": 1},
+			"_id": bson.M{"p": "$sp"},
 			"b":   bson.M{"$sum": "$l"},
-			"a":   bson.M{"$avg": "$l"},
 		}},
+		{"$sort": bson.D{{"b", -1}}},
 	}).All(&results)
 	session.Close()
 	return results

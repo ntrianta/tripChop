@@ -1,0 +1,103 @@
+{{set . "title" "Home"}}
+{{template "header.html" .}}
+
+<script type="text/javascript">
+
+var width = 400,
+    height = 200,
+    margin = {top: 15, right: 10, bottom: 40, left: 35},
+    radius = Math.min(width, height) / 2;
+
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var color = d3.scale.ordinal()
+    .range(["#3A539B", "#446CB3", "#4B77BE", "#4183D7", "#3498DB", "#59ABE3", "#6BB9F0"]);
+
+var arc = d3.svg.arc()
+        .outerRadius(radius - 10)
+        .innerRadius(radius - 70);
+
+var pie = d3.layout.pie()
+        .sort(null)
+        .value(function(d) { return d["Bytes"]; });
+
+
+
+d3.json("/public/js/foo.json", function(error, data) {
+
+  data.forEach(function(d) {
+    d["Bytes"] = +d["Bytes"];
+  });
+
+
+    // x.domain(data.map(function(d) {return d.Port; }));
+    // y.domain([0, d3.max(data, function(d) { return d.Bytes; })]);
+
+    var hour = d3.nest()
+        .key(function(d){
+          return d.Hour;
+        })
+        .entries(data);
+
+     var svg = d3.select("body").selectAll("svg")
+          .data(hour)
+        .enter().append("svg")
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      var g = svg.selectAll(".arc")
+              .data(pie(data.values))
+            .enter().append("g")
+              .attr("class", "arc");
+
+          g.append("path")
+              .attr("d", arc)
+              .style("fill", function(d) { return color(d.data.Port); });
+
+          g.append("text")
+              .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+              .attr("dy", ".35em")
+              .style("text-anchor", "middle");
+          // svg.selectAll("rect")
+          //   .data(function(d) {return d.values;})
+          //   .enter()
+          //   .append("rect")
+          //     .attr("class", "bar")
+          //     .attr("x", function(d) { return x(d.Port); })
+          //     .attr("width", x.rangeBand())
+          //     .attr("y", function(d) { return y(d.Bytes); })
+          //     .attr("height", function(d) { return height - y(d.Bytes); })
+          //     .attr("fill", "#22313F");
+          //
+          //   svg.selectAll("text")
+          //          .data(function(d) {return d.values;})
+          //          .enter()
+          //          .append("text")
+          //          .text(function(d) {
+          //              return d.Port.split('(')[0];
+          //          })
+          //          .attr("text-anchor", "middle")
+          //          .attr("x", function(d, i) {
+          //              return x(d.Port)+23;
+          //          })
+          //          .attr("y", function(d) {
+          //              return y(d.Bytes)+13;
+          //          })
+          //          .attr("font-family", "sans-serif")
+          //          .attr("font-size", "10px")
+          //          .attr("font-weight", "bold")
+          //          .attr("fill", "white");
+});
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,152 @@
+[
+  {
+"Hour": 0,
+"Port": "443(https)",
+"Bytes": 11561563
+},
+{
+"Hour": 0,
+"Port": "445(microsoft-ds)",
+"Bytes": 307159
+},
+{
+"Hour": 0,
+"Port": "50167",
+"Bytes": 140056
+},
+{
+"Hour": 0,
+"Port": "80(http)",
+"Bytes": 75311
+},
+{
+"Hour": 0,
+"Port": "52152",
+"Bytes": 54874
+},
+{
+"Hour": 0,  
+"Port": "52199",
+"Bytes": 48908
+},
+{
+"Hour": 0,
+"Port": "52166",
+"Bytes": 37361
+},
+{
+"Hour": 0,
+"Port": "52158",
+"Bytes": 28025
+},
+{
+"Hour": 0,
+"Port": "52151",
+"Bytes": 27010
+},
+{
+"Hour": 0,
+"Port": "389(ldap)",
+"Bytes": 23957
+},
+  {
+    "Hour": 1,
+    "Port": "389(ldap)",
+    "Bytes": 64162
+  },
+  {
+    "Hour": 1,
+    "Port": "445(microsoft-ds)",
+    "Bytes": 21012
+  },
+  {
+    "Hour": 1,
+    "Port": "88(kerberos)",
+    "Bytes": 8030
+  },
+  {
+    "Hour": 1,
+    "Port": "49422",
+    "Bytes": 6115
+  },
+  {
+    "Hour": 1,
+    "Port": "52394",
+    "Bytes": 4577
+  },
+  {
+    "Hour": 1,
+    "Port": "52400",
+    "Bytes": 4577
+  },
+  {
+    "Hour": 1,
+    "Port": "52387",
+    "Bytes": 4577
+  },
+  {
+    "Hour": 1,
+    "Port": "52388",
+    "Bytes": 4577
+  },
+  {
+    "Hour": 1,
+    "Port": "52383",
+    "Bytes": 4576
+  },
+  {
+    "Hour": 1,
+    "Port": "49424",
+    "Bytes": 4361
+  },
+  {
+    "Hour": 2,
+    "Port": "389(ldap)",
+    "Bytes": 64162
+  },
+  {
+    "Hour": 2,
+    "Port": "445(microsoft-ds)",
+    "Bytes": 21012
+  },
+  {
+    "Hour": 2,
+    "Port": "88(kerberos)",
+    "Bytes": 8030
+  },
+  {
+    "Hour": 2,
+    "Port": "49422",
+    "Bytes": 6115
+  },
+  {
+    "Hour": 2,
+    "Port": "52394",
+    "Bytes": 4577
+  },
+  {
+    "Hour": 2,
+    "Port": "52400",
+    "Bytes": 4577
+  },
+  {
+    "Hour": 2,
+    "Port": "52387",
+    "Bytes": 4577
+  },
+  {
+    "Hour": 2,
+    "Port": "52388",
+    "Bytes": 4577
+  },
+  {
+    "Hour": 2,
+    "Port": "52383",
+    "Bytes": 4576
+  },
+  {
+    "Hour": 2,
+    "Port": "49424",
+    "Bytes": 4361
+  }
+]

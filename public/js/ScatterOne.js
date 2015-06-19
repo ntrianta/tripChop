@@ -4,10 +4,10 @@ function draw(data){
   width = 1400 - margin,
   height = 600 - margin;
 
-  var svg = d3.select("body")
+  var svg = d3.select("#main")
     .append("svg")
-      .attr("width", width + margin)
-      .attr("height", height + margin)
+      .attr("width", "100%")
+      .attr("height", "100%")
     .append('g')
         .attr('class','chart');
 
@@ -23,9 +23,9 @@ function draw(data){
 
     var packets_extent = d3.extent(data, function(d) {
         return d['Packets'];
-    })
+    });
 
-    var byte_scale = d3.scale.log()
+    var byte_scale = d3.scale.linear()
         .range([height, margin])
         .domain(byte_extent);
 
@@ -65,7 +65,7 @@ function draw(data){
             .attr("opacity", "0.4")
 
             $('svg circle').tipsy({
-                gravity: "w",
+                gravity: $.fn.tipsy.autoNS,
                 html: true,
                 title: function() {
                   var d = this.__data__
@@ -73,15 +73,12 @@ function draw(data){
                          'SourceIP: '  + d["SourceIP"] + '<br/>' +
                          'DestIP: '    + d["DestIP"]   + '<br/>' +
                          'Packets: '   + d["Packets"]  + '<br/>' +
-                         'Bytes: '     + d["Bytes"]    + '<br/>' +
-                         'Avg: '       + d["Avg"]      + '<br/>' +
+                         'Bytes: '     + d["Bytes"]    + ' KB <br/>' +
+                         'Avg: '       + d["Avg"]      + ' B <br/>' +
                          '</span>';
                   }
               });
-
-};
-
-
+}
 
 
 d3.json("http://localhost:9000/flow/json", draw);

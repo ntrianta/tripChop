@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/ntrianta/tripChop/app/models"
 	"github.com/revel/revel"
+	"math"
 )
 
 type FlowJson struct {
@@ -25,7 +26,7 @@ func (c Flow) ScatterOne() revel.Result {
 }
 
 func (c Flow) FlowJson() revel.Result {
-	results := models.Aggregate()
+	results := models.HourlyFlow()
 	output := []*FlowJson{}
 	for _, r := range results {
 		output = append(output, &FlowJson{
@@ -34,9 +35,9 @@ func (c Flow) FlowJson() revel.Result {
 			SourcePort: r.Flow["sp"].(string),
 			DestPort:   r.Flow["dp"].(string),
 			Proto:      r.Flow["p"].(string),
-			Bytes:      r.Bytes,
+			Bytes:      math.Floor(r.Bytes / 1000),
 			Packets:    r.Packets,
-			Avg:        r.Average,
+			Avg:        math.Floor(r.Average),
 		})
 	}
 	return c.RenderJson(output)
