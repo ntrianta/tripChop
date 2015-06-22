@@ -4,19 +4,6 @@ function draw(data){
   width = 1400 - margin,
   height = 600 - margin;
 
-  var tip = d3.tip()
-    .attr('class', 'd3-tip')
-    .offset([-10, 0])
-    .html(function(d) {
-     return '<span>'+
-             'SourceIP: '  + d["SourceIP"] + '<br/>' +
-             'DestIP: '    + d["DestIP"]   + '<br/>' +
-             'Packets: '   + d["Packets"]  + '<br/>' +
-             'Bytes: '     + d["Bytes"]    + ' KB <br/>' +
-             'Avg: '       + d["Avg"]      + ' B <br/>' +
-             '</span>';
-      });
-
   var svg = d3.select("#main")
     .append("svg")
       .attr("width", "100%")
@@ -29,8 +16,6 @@ function draw(data){
           .data(data)
           .enter()
           .append("circle");
-
-    svg.call(tip);
 
     var byte_extent = d3.extent(data, function(d) {
         return d['Bytes'];
@@ -56,6 +41,18 @@ function draw(data){
         .scale(packets_scale)
         .orient("bottom");
 
+
+    d3.select("svg")
+          .append("g")
+          .attr("class", "y axis")
+          .attr("transform", "translate(" + margin + ",0)")
+          .call(byte_axis);
+
+    d3.select("svg")
+          .append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + height + ")").call(packets_axis);
+
     d3.selectAll("circle")
             .attr("cx", function(d) {
                 return 20+(packets_scale(d["Packets"]));
@@ -66,10 +63,21 @@ function draw(data){
             .attr("r", function(d) {return (d["Avg"]/40);})
             .attr("fill", "#3A539B")
             .attr("opacity", "0.4")
-            .on('mouseover', tip.show)
-            .on('mouseout', tip.hide)
 
-
+            $('svg circle').tipsy({
+                gravity: $.fn.tipsy.autoNS,
+                html: true,
+                title: function() {
+                  var d = this.__data__
+                  return '<span>'+
+                         'SourceIP: '  + d["SourceIP"] + '<br/>' +
+                         'DestIP: '    + d["DestIP"]   + '<br/>' +
+                         'Packets: '   + d["Packets"]  + '<br/>' +
+                         'Bytes: '     + d["Bytes"]    + ' KB <br/>' +
+                         'Avg: '       + d["Avg"]      + ' B <br/>' +
+                         '</span>';
+                  }
+              });
 }
 
 

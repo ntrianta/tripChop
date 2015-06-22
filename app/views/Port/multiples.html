@@ -3,21 +3,20 @@
 
 <script type="text/javascript">
 
-var width = 400,
-    height = 200,
+var width = 500,
+    height = 300,
+    barHeight = 20,
     margin = {top: 15, right: 10, bottom: 40, left: 35};
 
-var x = d3.scale.ordinal()
-    .rangeRoundBands([0, width], .1);
+var x = d3.scale.linear()
+    .range([width, 0]);
 
-var y = d3.scale.linear()
-    .range([height, 0]);
-
+var y = d3.scale.ordinal()
+    .rangeRoundBands([height, 0],.1);
 
 d3.json("/public/js/foo.json", function(error, data) {
-
-    x.domain(data.map(function(d) {return d.Port; }));
-    y.domain([0, d3.max(data, function(d) { return d.Bytes; })]);
+    y.domain(data.map(function(d) { return d.Port; }));
+    x.domain([0, d3.max(data, function(d) { return d.Bytes; })]);
 
     var hour = d3.nest()
         .key(function(d){
@@ -25,43 +24,22 @@ d3.json("/public/js/foo.json", function(error, data) {
         })
         .entries(data);
 
-     var svg = d3.select("body").selectAll("svg")
-          .data(hour)
+     var svg = d3.select("body").selectAll("svg").data(hour)
         .enter().append("svg")
           .attr("width", width + margin.left + margin.right)
           .attr("height", height + margin.top + margin.bottom)
         .append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-          svg.selectAll("rect")
-            .data(function(d) {return d.values;})
-            .enter()
-            .append("rect")
-              .attr("class", "bar")
-              .attr("x", function(d) { return x(d.Port); })
-              .attr("width", x.rangeBand())
-              .attr("y", function(d) { return y(d.Bytes); })
-              .attr("height", function(d) { return height - y(d.Bytes); })
-              .attr("fill", "#22313F");
-
-            svg.selectAll("text")
-                   .data(function(d) {return d.values;})
-                   .enter()
-                   .append("text")
-                   .text(function(d) {
-                       return d.Port.split('(')[0];
-                   })
-                   .attr("text-anchor", "middle")
-                   .attr("x", function(d, i) {
-                       return x(d.Port)+23;
-                   })
-                   .attr("y", function(d) {
-                       return y(d.Bytes)+13;
-                   })
-                   .attr("font-family", "sans-serif")
-                   .attr("font-size", "10px")
-                   .attr("font-weight", "bold")
-                   .attr("fill", "white");
+      svg.selectAll("rect")
+        .data(function(d) {return d.values;})
+        .enter()
+        .append("rect")
+        .attr("class", "bar")
+        .attr("width", function(d) { return width - x(d.Bytes); })
+        .attr("height", y.rangeBand())
+        .attr("y", function(d) {  return  y(d.Port); })
+        .attr("fill", "#22313F");
 });
 
 

@@ -22,13 +22,16 @@ func (c Port) Multiples() revel.Result {
 	return c.Render()
 }
 
+func (c Port) Multipleline() revel.Result {
+	return c.Render()
+}
 
 func (c Port) Bar() revel.Result {
 	return c.Render()
 }
 
 func (c Port) PortJson() revel.Result {
-	x:=10
+	x := 10
 	results := models.HourlyPort()[0:x]
 	output := []*PortJson{}
 	for _, r := range results {
