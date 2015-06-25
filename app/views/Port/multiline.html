@@ -11,13 +11,12 @@ body {
   stroke: #3A539B;
   stroke-width: 7px;
 }
-}
 </style>
 
 <script type="text/javascript">
 
 var width = 500,
-    height = 280,
+    height = 250,
     barHeight = 20,
     margin = {top: 40, right: 10, bottom: 25, left: 35};
 
@@ -42,7 +41,7 @@ var width = 500,
         .y(function(d) { return y(d.bytes);});
 
 
-d3.json("/public/data/ports.json", function(error, data) {
+d3.json("/public/data/portVolume.json", function(error, data) {
 
   data.forEach(function(d) {
        d.hour = parseDate(d.hour);
@@ -82,7 +81,10 @@ d3.json("/public/data/ports.json", function(error, data) {
           .attr("height", height + margin.top + margin.bottom)
           .style("background-clip", "padding-box")
           .style("background-color", function(d){
-            if (d.values[0].cor === 2) {
+            if (d.values[0].cor === 1){
+              return "#446CB3";
+            }
+            else if (d.values[0].cor === 2) {
                 return "#F62459";
             }
           })
@@ -93,7 +95,7 @@ d3.json("/public/data/ports.json", function(error, data) {
          .attr("class", "line")
          .attr("d", function(d) {  return line(d.values); })
          .style("stroke", function(d){
-           if (d.values[0].cor === 2) {
+           if (d.values[0].cor != 0) {
                return "#FFFFFF";}});
         svg.append("text")
          .attr("x", width/2)
@@ -102,7 +104,7 @@ d3.json("/public/data/ports.json", function(error, data) {
          .style("font-weight", "bold")
          .style("text-anchor", "end")
          .style("fill", function(d){
-           if (d.values[0].cor === 2) {
+           if (d.values[0].cor != 0) {
                return "#FFFFFF";}})
          .text(function(d) { return d.key; });
 

@@ -1,0 +1,243 @@
+{{set . "title" "Flow Details"}}
+{{template "header.html" .}}
+
+<style>
+body {
+  font: 10px sans-serif;
+  margin: 0;
+}
+.line {
+  fill: none;
+  stroke: #913D88;
+  stroke-width: 5px;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+  stroke-width: 7px;
+}
+
+</style>
+
+<script type="text/javascript">
+var width = 1600;
+var height = 415;
+
+var width1 = 800,
+    height1 = 400,
+    radius = Math.min(width1, height1) / 2;
+
+var margin = {
+    top: 40,
+    right: 10,
+    bottom: 25,
+    left: 35
+};
+
+var legendRectSize = 18;
+var legendSpacing = 4;
+
+var color = d3.scale.ordinal()
+    .range(["#F22613", "#F27935", "#F4D03F", "#019875", "#22A7F0", "#3A539B", "#8E44AD", ]);
+
+var arc = d3.svg.arc()
+    .outerRadius(radius - 10)
+    .innerRadius(radius - 70);
+
+var pie = d3.layout.pie()
+    .sort(null)
+    .value(function (d) {
+    return d.Bytes
+});
+
+var parseDate = d3.time.format("%H:%M").parse;
+
+var x = d3.time.scale()
+    .range([0, width]);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var line = d3.svg.line()
+    .x(function (d) {
+    return x(d.hour);
+})
+    .y(function (d) {
+    return y(d.bytes);
+});
+
+var x1 = d3.time.scale()
+    .range([0, width1]);
+
+var y1 = d3.scale.linear()
+    .range([height1, 0]);
+
+var xAxis1 = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis1 = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var line1 = d3.svg.line()
+    .x(function (d) {
+    return x1(d.hour);
+})
+    .y(function (d) {
+    return y1(d.bytes);
+});
+
+var svg1 = d3.select("body").append("svg")
+    .attr("width", "100%")
+    .attr("height", "50%")
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var svg2 = d3.select("body").append("svg")
+    .attr("width", "50%")
+    .attr("height", "50%")
+    .append("g")
+    .attr("transform", "translate(" + 350 + "," + 235 + ")");
+
+var svg3 = d3.select("body")
+    .append("svg")
+    .attr("width", "50%")
+    .attr("height", "50%")
+    .append("g")
+    .attr("transform", "translate(" + 10 + "," + 10 + ")");
+
+
+d3.json("/public/data/flowVolume.json", function (error, data) {
+
+    data.forEach(function (d) {
+        d.hour = parseDate(d.hour);
+        d.bytes = +d.bytes;
+    });
+
+    x.domain(d3.extent(data, function (d) {
+        return d.hour;
+    }));
+    y.domain(d3.extent(data, function (d) {
+        return d.bytes;
+    }));
+
+    svg1.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis1);
+
+    svg1.append("g")
+        .attr("class", "y axis")
+        .call(yAxis1)
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", ".71em")
+        .style("text-anchor", "end")
+        .style("font-size", "15px")
+        .style("font-weight", "bold")
+        .text("Bytes");
+
+    svg1.append("path")
+        .datum(data)
+        .attr("class", "line")
+        .attr("d", line);
+});
+
+d3.json("/public/data/topPorts.json", function (error, data) {
+    data.forEach(function (d) {
+        d.Bytes = +d.Bytes;
+    });
+
+    var g = svg2.selectAll(".arc")
+        .data(pie(data))
+        .enter().append("g")
+        .attr("class", "arc");
+
+    g.append("path")
+        .attr("d", arc)
+        .style("fill", function (d) {
+        return color(d.data.Port);
+    });
+
+    g.append("text")
+        .attr("transform", function (d) {
+        return "translate(" + arc.centroid(d) + ")";
+    })
+        .attr("dy", ".35em")
+        .style("text-anchor", "middle");
+
+    var legend = svg2.selectAll('.legend')
+        .data(color.domain())
+        .enter()
+        .append('g')
+        .attr('class', 'legend')
+        .attr('transform', function (d, i) {
+        var height = legendRectSize + legendSpacing;
+        var offset = height * color.domain().length / 2;
+        var horz = -2 * legendRectSize;
+        var vert = i * height - offset;
+        return 'translate(' + horz + ',' + vert + ')';
+    });
+
+    legend.append('rect')
+        .attr('width', legendRectSize)
+        .attr('height', legendRectSize)
+        .style('fill', color)
+        .style('stroke', color);
+
+    legend.append('text')
+        .attr('x', legendRectSize + legendSpacing)
+        .attr('y', legendRectSize - legendSpacing)
+        .style('font-weight', 'bold')
+        .style('font-size', '14px')
+        .text(function (d) {
+        return d;
+    });
+
+});
+
+d3.json("/public/data/httpVolume.json", function (error, data) {
+
+    data.forEach(function (d) {
+        d.hour = parseDate(d.hour);
+        d.bytes = +d.bytes;
+    });
+
+    x1.domain(d3.extent(data, function (d) {
+        return d.hour;
+    }));
+    y1.domain(d3.extent(data, function (d) {
+        return d.bytes;
+    }));
+
+    svg3.append("path")
+        .datum(data)
+        .attr("class", "line")
+        .attr("d", line1)
+        .style("stroke", "black");
+
+    svg3.append("text")
+        .attr("x", width1 / 2 + 40)
+        .attr("y", height1)
+        .style("font-size", "20px")
+        .style("font-weight", "bold")
+        .style("text-anchor", "end")
+        .style("fill", "black")
+        .text("http")
+});
+</script>
+
+</body>
+</html>

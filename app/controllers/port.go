@@ -18,11 +18,11 @@ func (c Port) Ring() revel.Result {
 	return c.Render()
 }
 
-func (c Port) Multiples() revel.Result {
+func (c Port) Multibar() revel.Result {
 	return c.Render()
 }
 
-func (c Port) Multipleline() revel.Result {
+func (c Port) Multiline() revel.Result {
 	return c.Render()
 }
 

@@ -1,0 +1,30 @@
+[
+  {
+    "Port": "http",
+    "Bytes": 7531
+  },
+  {
+    "Port": "ssh",
+    "Bytes": 4000
+  },
+  {
+    "Port": "microsoft ds",
+    "Bytes": 2000
+  },
+  {
+    "Port": "https",
+    "Bytes": 1500
+  },
+  {
+    "Port": "ldap",
+    "Bytes": 1300
+  },
+  {
+    "Port": "telnet",
+    "Bytes": 1000
+  },
+  {
+    "Port": "ftp",
+    "Bytes": 700
+  }
+]
