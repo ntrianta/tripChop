@@ -22,6 +22,18 @@ func (c Port) Multibar() revel.Result {
 	return c.Render()
 }
 
+func (c Port) Multibar2() revel.Result {
+	return c.Render()
+}
+
+func (c Port) Multibar3() revel.Result {
+	return c.Render()
+}
+
+func (c Port) Multiseries() revel.Result {
+	return c.Render()
+}
+
 func (c Port) Multiline() revel.Result {
 	return c.Render()
 }

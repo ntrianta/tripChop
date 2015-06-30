@@ -14,6 +14,9 @@ GET     /port/json                              Port.PortJson
 GET     /port/Ring                              Port.Ring
 GET     /port/Bar                               Port.Bar
 GET     /port/Multibar                          Port.Multibar
+GET     /port/Multibar2                         Port.Multibar2
+GET     /port/Multibar3                         Port.Multibar3
+GET     /port/Multiseries                       Port.Multiseries
 GET     /port/Multiline                         Port.Multiline
 
 # Ignore favicon requests
